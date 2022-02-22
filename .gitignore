@@ -1,0 +1,8 @@
+tmp/
+*__pycache__*
+data/*/proc_data.py
+data/perturbative/compute_avg.py
+data/*/src
+.vscode/
+main_explore.py
+src/my_plot.py
