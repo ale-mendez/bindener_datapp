@@ -9,8 +9,9 @@ def read_diracfock_bindener(folder):
     bindener = pd.read_csv(fpath, sep='\t', header='infer', index_col=0)
 
     bindener_dict = dict()
-    for atom in bindener.columns:
-        df = bindener[[atom]]
+    for atom in bindener.index:
+        df = bindener.loc[atom:atom]
+        df = df.transpose()
         df = df.rename(columns={atom: 'Energy(Hartree)'})
         df = df.dropna()
         bindener_dict[atom] = df
