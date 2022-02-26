@@ -106,12 +106,12 @@ class bindingEnergies:
     def compute_FEG_parameters(self, ne):
         ne = float(ne)
         C = 0.5 * (9 * np.pi / 4) ** (2/3)
-        # atomic density
         density = self.atom.density # units: g/cm^3
         mass = self.atom.mass # units (g)
-        rho = (8.916E-2 * ne * density / mass)
+        # atomic density in atomic units
+        atomic_den = (8.916E-2 * ne * density / mass)
         # wigner-seitz radii
-        rs = (3 / (4 * np.pi * rho)) ** (1/3)
+        rs = (3 / (4 * np.pi * atomic_den)) ** (1/3)
         # fermi energy
         Ef_hartree = C / rs ** 2
         # convert units

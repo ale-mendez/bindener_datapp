@@ -17,7 +17,7 @@ class experimentalData:
 
         self.filename = 'ElectronBindingEnergies'
         self.file_ext = '.tsv'
-        self.file_proc_key = ['data','ref']
+        self.file_proc_key = ['dat','ref']
         self.folder = folder
         self.units = units
         self.raw_file_path = None
@@ -41,13 +41,14 @@ class experimentalData:
             self.define_global_variables()
 
         proc_other = self.check_database_files()
-        if proc_other: 
-            pass
-            # self.load_energy_table()
-            # self.load_reference_table()
+        if proc_other:
+            self.load_energy_table()
+            self.load_reference_table()
+            print('proc')
         else:
             self.proc_raw_table()
             self.write_processed_tables()
+            print('raw')
 
 
     def check_database_files(self, key=None):
@@ -61,9 +62,7 @@ class experimentalData:
         # check if processed files exist
         else:
             for key in self.file_proc_key:
-                proc_file = ''.join([self.filename, self.file_ext])
-                proc_file = '_'.join([key, proc_file])
-                proc_file_path = os.path.join(self.folder, proc_file)
+                proc_file_path = self.processed_filepath(key)
                 if not os.path.isfile(proc_file_path): 
                     return False
         return True
@@ -73,12 +72,27 @@ class experimentalData:
         self.raw_table = pd.read_csv(self.raw_file_path, sep='\t', index_col=0)
 
 
+    def processed_filepath(self, key):
+        proc_file = '_'.join([self.filename, key])
+        proc_file = ''.join([proc_file, self.file_ext])
+        proc_filepath = os.path.join(self.folder, proc_file)
+        return proc_filepath
+
+
+    def load_energy_table(self):
+        datpath = self.processed_filepath(self.file_proc_key[0])
+        self.dat_table = pd.read_csv(datpath, sep='\t', index_col=0)
+
+
+    def load_reference_table(self):
+        refpath = self.processed_filepath(self.file_proc_key[1])
+        self.ref_table = pd.read_csv(refpath, sep='\t', index_col=0)
+
+
     def define_global_variables(self):
         self.idx = self.raw_table.index
         self.orbs = self.raw_table.columns[1:]
         self.elements = self.raw_table['Element'].tolist()
-        self.bindener = pd.DataFrame(index=self.orbs)
-        self.bindener.index.name = 'Orbital'
 
 
     def proc_raw_table(self):
@@ -130,9 +144,9 @@ class experimentalData:
         '''
         # define an element object (inherits methods from periodictable.elements module)
         element = misc.periodic_table(element_str) 
-
         self.check_element_data(element.symbol)
-        self.extract_element_data(element.number)
+
+        self.bindener = self.extract_element_data(element.number)
         if bprint: self.print_element_data(element.symbol)
         return self.bindener
 
@@ -152,9 +166,13 @@ class experimentalData:
         defcolname = misc.column_name('eV')
         colname = misc.column_name(self.units)
         ener = self.dat_table.loc[element_number][1:].tolist()
-        self.bindener[defcolname] = ener
-        self.bindener[colname] = [misc.convert_energy_from_eV(e, self.units) for e in ener]
-        self.bindener['Reference'] = self.ref_table.loc[element_number][1:].tolist()
+        bindener = pd.DataFrame(index=self.orbs)
+        bindener.index.name = 'Orbital'
+        bindener[defcolname] = ener
+        bindener[colname] = [misc.convert_energy_from_eV(e, self.units) for e in ener]
+        bindener['Reference'] = self.ref_table.loc[element_number][1:].tolist()
+        bindener = bindener.dropna()
+        return bindener
 
 
     def print_element_data(self, element_symbol):
@@ -182,6 +200,8 @@ class experimentalData:
         significate figures as experimental data
         '''
         from math import log10
+        if ener == 0:
+            return str(ener)
         # count the number of significate figures (icsig) in experimental value (eV)
         for i in range(6):
             a = ener*(10**i)
@@ -212,4 +232,9 @@ class experimentalData:
 
 
     def write_processed_tables(self):
-        pass
+        # print reference table to file
+        refpath = self.processed_filepath(self.file_proc_key[1])
+        self.ref_table.to_csv(refpath, sep='\t')
+        # print energy table to file
+        datpath = self.processed_filepath(self.file_proc_key[0])
+        self.dat_table.to_csv(datpath, sep='\t')
