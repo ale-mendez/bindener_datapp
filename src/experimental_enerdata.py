@@ -222,11 +222,13 @@ class experimentalData:
         '''
         Function to print footnote with references
         '''
-        print('\n# References:',file=f)
-        print('# Experimental values compiled by Williams, G. (1995)',file=f)
-        print('# [1] J. A. Bearden and A. F. Burr, "Reevaluation of X­Ray Atomic Energy Levels," Rev. Mod. Phys. 39, (1967) p.125\n'+
-              '# [2] M. Cardona and L. Ley, Eds., Photoemission in Solids I: General Principles (Springer­Verlag, Berlin, 1978) with additional corrections\n'+
-              '# [3] J. C. Fuggle and N. Mårtensson, "Core­Level Binding Energies in Metals," J. Electron Spectrosc. Relat. Phenom. 21, (1980) p.275',file=f)
+        print('\n# References:', file=f)
+        print('# Experimental values compiled by Williams, G. (1995)', file=f)
+        print('# 1. J. A. Bearden and A. F. Burr, "Reevaluation of X­Ray Atomic Energy Levels," Rev. Mod. Phys. 39, (1967) p.125\n'+
+              '# 2. M. Cardona and L. Ley, Eds., Photoemission in Solids I: General Principles (Springer­Verlag, Berlin, 1978), with additional corrections\n'+
+              '# 3. J. C. Fuggle and N. Mårtensson, "Core­Level Binding Energies in Metals", J. Electron Spectrosc. Relat. Phenom. 21, (1980) p.275\n'+
+              '# a. One-particle approximation not valid owing to short core-hole lifetime.'+
+              '# b. Value derived from Ref. [1].', file=f)
 
 
     def write_processed_tables(self):
