@@ -44,11 +44,9 @@ class experimentalData:
         if proc_other:
             self.load_energy_table()
             self.load_reference_table()
-            print('proc')
         else:
             self.proc_raw_table()
             self.write_processed_tables()
-            print('raw')
 
 
     def check_database_files(self, key=None):
