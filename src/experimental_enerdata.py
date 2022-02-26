@@ -42,12 +42,13 @@ class experimentalData:
 
         proc_other = self.check_database_files()
         if proc_other:
-            pass
-            # self.load_energy_table()
-            # self.load_reference_table()
+            self.load_energy_table()
+            self.load_reference_table()
+            print('proc')
         else:
             self.proc_raw_table()
             self.write_processed_tables()
+            print('raw')
 
 
     def check_database_files(self, key=None):
@@ -61,9 +62,7 @@ class experimentalData:
         # check if processed files exist
         else:
             for key in self.file_proc_key:
-                proc_file = '_'.join([self.filename, key])
-                proc_file = ''.join([proc_file, self.file_ext])
-                proc_file_path = os.path.join(self.folder, proc_file)
+                proc_file_path = self.processed_filepath(key)
                 if not os.path.isfile(proc_file_path): 
                     return False
         return True
@@ -71,6 +70,23 @@ class experimentalData:
 
     def load_raw_table(self):
         self.raw_table = pd.read_csv(self.raw_file_path, sep='\t', index_col=0)
+
+
+    def processed_filepath(self, key):
+        proc_file = '_'.join([self.filename, key])
+        proc_file = ''.join([proc_file, self.file_ext])
+        proc_filepath = os.path.join(self.folder, proc_file)
+        return proc_filepath
+
+
+    def load_energy_table(self):
+        datpath = self.processed_filepath(self.file_proc_key[0])
+        self.dat_table = pd.read_csv(datpath, sep='\t', index_col=0)
+
+
+    def load_reference_table(self):
+        refpath = self.processed_filepath(self.file_proc_key[1])
+        self.ref_table = pd.read_csv(refpath, sep='\t', index_col=0)
 
 
     def define_global_variables(self):
@@ -100,11 +116,6 @@ class experimentalData:
                      if 'a' in val: ref.append('a')
                      if 'b' in val: ref.append('b')
                 self.ref_table.at[i,o] = ref
-        # print dataframe to file
-        filename = '_'.join([self.filename, self.file_proc_key[1]])
-        filename = ''.join([filename, self.file_ext])
-        refpath = os.path.join(self.folder, filename)
-        self.ref_table.to_csv(refpath, sep='\t')
 
 
     def proc_data(self):
@@ -120,11 +131,6 @@ class experimentalData:
                     if 'g' in val: val = val.replace('g','9') # fix on Williams compilation pdf
                     val = float(val)
                 self.dat_table.at[i,o] = val
-        # print dataframe to file
-        filename = '_'.join([self.filename, self.file_proc_key[0]])
-        filename = ''.join([filename, self.file_ext])
-        refpath = os.path.join(self.folder, filename)
-        self.dat_table.to_csv(refpath, sep='\t')
 
 
     def element_binding_energies(self, element_str, bprint=False):
@@ -226,4 +232,9 @@ class experimentalData:
 
 
     def write_processed_tables(self):
-        pass
+        # print reference table to file
+        refpath = self.processed_filepath(self.file_proc_key[1])
+        self.ref_table.to_csv(refpath, sep='\t')
+        # print energy table to file
+        datpath = self.processed_filepath(self.file_proc_key[0])
+        self.dat_table.to_csv(datpath, sep='\t')
