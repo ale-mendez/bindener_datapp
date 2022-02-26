@@ -17,7 +17,7 @@ class experimentalData:
 
         self.filename = 'ElectronBindingEnergies'
         self.file_ext = '.tsv'
-        self.file_proc_key = ['data','ref']
+        self.file_proc_key = ['dat','ref']
         self.folder = folder
         self.units = units
         self.raw_file_path = None
@@ -41,7 +41,7 @@ class experimentalData:
             self.define_global_variables()
 
         proc_other = self.check_database_files()
-        if proc_other: 
+        if proc_other:
             pass
             # self.load_energy_table()
             # self.load_reference_table()
@@ -61,8 +61,8 @@ class experimentalData:
         # check if processed files exist
         else:
             for key in self.file_proc_key:
-                proc_file = ''.join([self.filename, self.file_ext])
-                proc_file = '_'.join([key, proc_file])
+                proc_file = '_'.join([self.filename, key])
+                proc_file = ''.join([proc_file, self.file_ext])
                 proc_file_path = os.path.join(self.folder, proc_file)
                 if not os.path.isfile(proc_file_path): 
                     return False
@@ -77,8 +77,6 @@ class experimentalData:
         self.idx = self.raw_table.index
         self.orbs = self.raw_table.columns[1:]
         self.elements = self.raw_table['Element'].tolist()
-        self.bindener = pd.DataFrame(index=self.orbs)
-        self.bindener.index.name = 'Orbital'
 
 
     def proc_raw_table(self):
@@ -102,6 +100,11 @@ class experimentalData:
                      if 'a' in val: ref.append('a')
                      if 'b' in val: ref.append('b')
                 self.ref_table.at[i,o] = ref
+        # print dataframe to file
+        filename = '_'.join([self.filename, self.file_proc_key[1]])
+        filename = ''.join([filename, self.file_ext])
+        refpath = os.path.join(self.folder, filename)
+        self.ref_table.to_csv(refpath, sep='\t')
 
 
     def proc_data(self):
@@ -117,6 +120,11 @@ class experimentalData:
                     if 'g' in val: val = val.replace('g','9') # fix on Williams compilation pdf
                     val = float(val)
                 self.dat_table.at[i,o] = val
+        # print dataframe to file
+        filename = '_'.join([self.filename, self.file_proc_key[0]])
+        filename = ''.join([filename, self.file_ext])
+        refpath = os.path.join(self.folder, filename)
+        self.dat_table.to_csv(refpath, sep='\t')
 
 
     def element_binding_energies(self, element_str, bprint=False):
@@ -130,9 +138,9 @@ class experimentalData:
         '''
         # define an element object (inherits methods from periodictable.elements module)
         element = misc.periodic_table(element_str) 
-
         self.check_element_data(element.symbol)
-        self.extract_element_data(element.number)
+
+        self.bindener = self.extract_element_data(element.number)
         if bprint: self.print_element_data(element.symbol)
         return self.bindener
 
@@ -152,9 +160,13 @@ class experimentalData:
         defcolname = misc.column_name('eV')
         colname = misc.column_name(self.units)
         ener = self.dat_table.loc[element_number][1:].tolist()
-        self.bindener[defcolname] = ener
-        self.bindener[colname] = [misc.convert_energy_from_eV(e, self.units) for e in ener]
-        self.bindener['Reference'] = self.ref_table.loc[element_number][1:].tolist()
+        bindener = pd.DataFrame(index=self.orbs)
+        bindener.index.name = 'Orbital'
+        bindener[defcolname] = ener
+        bindener[colname] = [misc.convert_energy_from_eV(e, self.units) for e in ener]
+        bindener['Reference'] = self.ref_table.loc[element_number][1:].tolist()
+        bindener = bindener.dropna()
+        return bindener
 
 
     def print_element_data(self, element_symbol):
@@ -182,6 +194,8 @@ class experimentalData:
         significate figures as experimental data
         '''
         from math import log10
+        if ener == 0:
+            return str(ener)
         # count the number of significate figures (icsig) in experimental value (eV)
         for i in range(6):
             a = ener*(10**i)
