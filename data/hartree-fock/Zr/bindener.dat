@@ -1,0 +1,22 @@
+Orb	Energy(Hartree)
+1s	650.7050
+2s	91.3777
+2p	83.4786
+3s	16.0550
+3p	13.0198
+3d	7.5158
+4s	2.4192
+4p	1.4876
+4d	0.3368
+5s	0.2073
+
+# Calculation using MCHF_HF (Part 1) code with input:
+# 
+# 
+#          HARTREE-FOCK CALCULATION FOR  Zr   TERM = 3F     Z = 40.0
+# 
+#               Core =  1s(   2)  2s(   2)  2p(   6)  3s(   2)  3p(   6)
+#                       3d(  10)  4s(   2)  4p(   6)
+#      Configuration =  4d(   2)  5s(   2)                              
+# 
+# 
