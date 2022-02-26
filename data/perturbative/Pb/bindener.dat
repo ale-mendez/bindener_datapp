@@ -1,0 +1,35 @@
+Orb	Energy(Hartree)
+1s	3242.8497
+2s	577.5049
+2p-	553.6895
+2p+	473.0130
+3s	139.4442
+3p-	129.1026
+3p+	110.9754
+3d-	94.0649
+3d+	90.2801
+4s	31.9526
+4p-	27.4865
+4p+	23.0478
+4d-	15.7765
+4d+	14.9650
+4f-	5.6009
+4f+	5.4142
+5s	5.9199
+5p-	4.3946
+5p+	3.5613
+5d-	1.4781
+5d+	1.3850
+6s	1.0849
+6p-	0.7636
+6p+	0.6719
+
+# Calculation using HULLAC code with anginp:
+# atom pb 
+# data
+# group pb 
+# grnd 5d 10 6s 2 6p 2  min1
+# endata
+# process energy pb 
+# endproc
+# endjob

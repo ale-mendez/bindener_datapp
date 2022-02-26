@@ -1,0 +1,28 @@
+Orb	Energy(Hartree)	Reference
+1s	3421.5	[1]
+2s	622.49	[1]
+2p-	596.95	[1]
+2p+	507.65	[1]
+3s	152.4	[1]
+3p-	141.6	[1]
+3p+	121.3	[1]
+3d-	102.8	[1]
+3d+	98.59	[1]
+4s	36.5	[2]
+4p-	31.2	[2]
+4p+	25.9	[2]
+4d-	18.3	[2]
+4d+	17.3	[2]
+4f-	6.76	[2]
+4f+	6.76	[2]
+5s	6.50	[2]
+5p-	4.85	[2]
+5p+	3.82	[2]
+5d-	1.1	[2]
+5d+	1.1	[2]
+
+# References:
+# Experimental values compiled by Williams, G. (1995)
+# [1] J. A. Bearden and A. F. Burr, "Reevaluation of X­Ray Atomic Energy Levels," Rev. Mod. Phys. 39, (1967) p.125
+# [2] M. Cardona and L. Ley, Eds., Photoemission in Solids I: General Principles (Springer­Verlag, Berlin, 1978) with additional corrections
+# [3] J. C. Fuggle and N. Mårtensson, "Core­Level Binding Energies in Metals," J. Electron Spectrosc. Relat. Phenom. 21, (1980) p.275
