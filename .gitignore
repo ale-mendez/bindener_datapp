@@ -11,4 +11,4 @@ data/*/*/*_mrg*
 .vscode/
 main_explore.py
 src/my_plot.py
-
+graphs/
