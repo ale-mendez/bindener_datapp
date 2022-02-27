@@ -11,7 +11,7 @@ import src.theoretical_enerdata as theoapp
 
 def pull_bindener_data(atom, units, data_folder):
 
-    main_folder = '/home/ale/binding-energies/data/'
+    main_folder = './data/'
     try:
         pathdir = os.path.join(main_folder, data_folder)
         if data_folder == 'experimental':
