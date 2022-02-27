@@ -11,9 +11,8 @@ import src.theoretical_enerdata as theoapp
 
 def pull_bindener_data(atom, units, data_folder):
 
-    main_folder = './data/'
     try:
-        pathdir = os.path.join(main_folder, data_folder)
+        pathdir = os.path.join(self.main_folder, data_folder)
         if data_folder == 'experimental':
             atom_df = expapp.experimentalData(pathdir, units).element_binding_energies(atom)
         else:
@@ -26,10 +25,11 @@ def pull_bindener_data(atom, units, data_folder):
 
 class bindingEnergies:
 
-    def __init__(self, atom_symbol, units=None):
+    def __init__(self, main_folder=None, atom_symbol=None, units=None):
         self.atom_symbol = atom_symbol
         self.atom = misc.periodic_table(self.atom_symbol)
         self.units = units
+        self.main_folder = main_folder
         self.experiment = pull_bindener_data(atom_symbol, units, 'experimental')
         self.relativistic = pull_bindener_data(atom_symbol, units, 'perturbative')
         self.diracfock = pull_bindener_data(atom_symbol, units, 'dirac-fock')
