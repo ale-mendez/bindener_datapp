@@ -9,18 +9,6 @@ import src.experimental_enerdata as expapp
 import src.theoretical_enerdata as theoapp
 
 
-def pull_bindener_data(atom, units, data_folder):
-
-    try:
-        pathdir = os.path.join(self.main_folder, data_folder)
-        if data_folder == 'experimental':
-            atom_df = expapp.experimentalData(pathdir, units).element_binding_energies(atom)
-        else:
-            atom_df = theoapp.theoreticalData(pathdir, units).element_binding_energies(atom)
-    except:
-        atom_df = None
-
-    return atom_df
 
 
 class bindingEnergies:
@@ -30,17 +18,29 @@ class bindingEnergies:
         self.atom = misc.periodic_table(self.atom_symbol)
         self.units = units
         self.main_folder = main_folder
-        self.experiment = pull_bindener_data(atom_symbol, units, 'experimental')
-        self.relativistic = pull_bindener_data(atom_symbol, units, 'perturbative')
-        self.diracfock = pull_bindener_data(atom_symbol, units, 'dirac-fock')
-        # self.semirelat = pull_bindener_data(atom_symbol, units, 'semi-relativistic')
-        self.hartreefock = pull_bindener_data(atom_symbol, units, 'hartree-fock')
+        self.experiment = self.pull_bindener_data('experimental')
+        self.relativistic = self.pull_bindener_data('perturbative')
+        self.diracfock = self.pull_bindener_data('dirac-fock')
+        # self.semirelat = self.pull_bindener_data('semi-relativistic')
+        self.hartreefock = self.pull_bindener_data('hartree-fock')
         self.bindener = self.arrange_data_to_dataframe(units)
         self.orbitals = self.bindener.index
         self.methods = self.bindener.columns
         self.fermi_energy = None
         self.bindener_error = self.compute_relative_errors()
 
+    def pull_bindener_data(self, data_folder):
+
+        try:
+            pathdir = os.path.join(self.main_folder, data_folder)
+            if data_folder == 'experimental':
+                atom_df = expapp.experimentalData(pathdir, self.units).element_binding_energies(self.atom_symbol)
+            else:
+                atom_df = theoapp.theoreticalData(pathdir, self.units).element_binding_energies(self.atom_symbol)
+        except:
+            atom_df = None
+
+        return atom_df
 
     def arrange_data_to_dict(self):
         input = {
@@ -67,7 +67,6 @@ class bindingEnergies:
     def arrange_data_to_dataframe(self, units):
         bindener_dict = self.arrange_data_to_dict()
         orbs = self.get_orbitals(bindener_dict)
-        print
         bindener = pd.DataFrame(index=orbs)
         for method in bindener_dict.keys():
             data = bindener_dict[method]
