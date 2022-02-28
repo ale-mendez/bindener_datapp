@@ -147,7 +147,7 @@ def check_folder_exists(folder):
 
 # other functions
 
-def periodic_table(element):
+def periodic_table(element_str):
     ''' 
     Inherits periodic table properties given by periodictable module 
 
@@ -160,7 +160,7 @@ def periodic_table(element):
     '''
     import periodictable
     for el in periodictable.elements:
-        if el.symbol==element: 
+        if el.symbol == element_str: 
             return el
 
 def FEG_params(ne, at_density, at_weight):
