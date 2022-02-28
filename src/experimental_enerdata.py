@@ -36,12 +36,10 @@ class experimentalData:
         Read all the experimental binding energy data available
         '''
         proc_raw = self.check_database_files(key='raw')
-        if proc_raw:
-            self.load_raw_table()
-            self.define_global_variables()
-
         proc_other = self.check_database_files()
-        if proc_other:
+        if proc_raw and not proc_other:
+            self.load_raw_table()
+        elif proc_other:
             self.load_energy_table()
             self.load_reference_table()
         else:
@@ -68,6 +66,7 @@ class experimentalData:
 
     def load_raw_table(self):
         self.raw_table = pd.read_csv(self.raw_file_path, sep='\t', index_col=0)
+        self.define_global_variables(self.raw_table)
 
 
     def processed_filepath(self, key):
@@ -80,6 +79,7 @@ class experimentalData:
     def load_energy_table(self):
         datpath = self.processed_filepath(self.file_proc_key[0])
         self.dat_table = pd.read_csv(datpath, sep='\t', index_col=0)
+        self.define_global_variables(self.dat_table)
 
 
     def load_reference_table(self):
@@ -87,10 +87,10 @@ class experimentalData:
         self.ref_table = pd.read_csv(refpath, sep='\t', index_col=0)
 
 
-    def define_global_variables(self):
-        self.idx = self.raw_table.index
-        self.orbs = self.raw_table.columns[1:]
-        self.elements = self.raw_table['Element'].tolist()
+    def define_global_variables(self, table):
+        self.idx = table.index
+        self.orbs = table.columns[1:]
+        self.elements = table['Element'].tolist()
 
 
     def proc_raw_table(self):
@@ -135,13 +135,14 @@ class experimentalData:
         '''
         Selects element binding energy data from table and prints it in output file
 
-            element: (str)  element symbol, e.g. 'He'
+            element_str: (str)  element symbol, e.g. 'He'
             units: (str)  units for converting binding energies
             print: (bool) print output file with element data
 
         '''
         # define an element object (inherits methods from periodictable.elements module)
-        element = misc.periodic_table(element_str) 
+        element = misc.periodic_table(element_str)
+        print(element.symbol)
         self.check_element_data(element.symbol)
 
         self.bindener = self.extract_element_data(element.number)
