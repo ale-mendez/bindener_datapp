@@ -142,7 +142,6 @@ class experimentalData:
         '''
         # define an element object (inherits methods from periodictable.elements module)
         element = misc.periodic_table(element_str)
-        print(element.symbol)
         self.check_element_data(element.symbol)
 
         self.bindener = self.extract_element_data(element.number)
