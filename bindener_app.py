@@ -9,7 +9,6 @@ import src.structure_data as struc
 import src.miscellaneous as misc
 from src.app_styling import *
 
-datafolder = './data/'
 
 atoms = {el.symbol: el.number for i, el in enumerate(periodictable.elements) if i > 0}
 atoms_options = [
@@ -188,7 +187,7 @@ def update_methods(input_atoms, input_units, input_methods, input_nFEG=0):
     if input_atoms:
 
         # create object with bindener data
-        bindener = struc.bindingEnergies(main_folder=datafolder, atom_symbol=input_atoms, units=input_units)
+        bindener = struc.bindingEnergies(atom_symbol=input_atoms, units=input_units)
         filename = f'bindener_{bindener.atom_symbol}'
         
         # make list of methods with data

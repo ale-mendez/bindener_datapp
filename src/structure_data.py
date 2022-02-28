@@ -9,15 +9,16 @@ import src.experimental_enerdata as expapp
 import src.theoretical_enerdata as theoapp
 
 
+datafolder = './data/'
 
 
 class bindingEnergies:
 
-    def __init__(self, main_folder=None, atom_symbol=None, units=None):
+    def __init__(self, atom_symbol=None, units=None):
         self.atom_symbol = atom_symbol
         self.atom = misc.periodic_table(self.atom_symbol)
         self.units = units
-        self.main_folder = main_folder
+        self.main_folder = datafolder
         self.experiment = self.pull_bindener_data('experimental')
         self.relativistic = self.pull_bindener_data('perturbative')
         self.diracfock = self.pull_bindener_data('dirac-fock')
