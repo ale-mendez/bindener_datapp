@@ -4,7 +4,7 @@ data/*/proc_data.py
 data/*/src
 data/dirac-fock/declaux.ods
 data/hartree-fock/HF
-data/perturbative/compute_avg.py
+data/*/compute_avg.py
 data/perturbative/hullac
 data/*/*/*_avg*
 data/*/*/*_mrg*
