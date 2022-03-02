@@ -5,6 +5,7 @@ data/*/src
 data/dirac-fock/declaux.ods
 data/hartree-fock/HF
 data/*/compute_avg.py
+data/*/compute_mrg.py
 data/perturbative/hullac
 data/*/*/*_avg*
 data/*/*/*_mrg*
