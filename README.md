@@ -1,6 +1,6 @@
 # Binding energy app
 
-This repository holds an app written in python to plot and export binding energy values of atomic elements from $Z = 1 - 92$. This app considers data from four sources contained in the ```data/``` folder, and they are described below.
+This repository holds an app written in python to plot and export binding energy values of atomic elements from Z = 1 - 92. This app considers data from four sources contained in the ```data/``` folder, and they are described below.
 
 ### ```experimental```
 Experimental measurements from solids, compiled by [Williams (1995)](https://xdb.lbl.gov/Section1/Sec_1-1.html) from references 
@@ -19,5 +19,5 @@ Theoretical calculations with the ```HF86``` code by [C. Froese Fischer (1987)](
 
 
 
-**IMPORTANT**: The app has not been packaged (yet) and it requires packages ```dash```, ```plotly```, ```periodictable```, ```pandas```, ```numpy```, ```os``` and ```re``` to work. At this point, the user should install them via pip, conda or manually. 
+**IMPORTANT**: The app has not been packaged (yet) and it requires ```dash``` ```dash-bootstrap-components```, ```periodictable```, ```pandas```, ```numpy```, ```scipy```, ```os``` and ```re``` to work. At this point, the user should install them manually (for example, using pip or conda).
 
