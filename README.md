@@ -19,5 +19,5 @@ Theoretical calculations with the ```HF86``` code by [C. Froese Fischer (1987)](
 
 
 
-**IMPORTANT**: The app has not been packaged (yet) and it requires ```dash``` ```dash-bootstrap-components```, ```periodictable```, ```pandas```, ```numpy```, ```scipy```, ```os``` and ```re``` to work. At this point, the user should install them manually (for example, using pip or conda).
+**IMPORTANT**: The app has not been packaged (yet) and it requires ```dash``` ```dash-bootstrap-components```, ```jupyter-dash```, ```periodictable```, ```pandas```, ```numpy```, ```scipy```, ```os```, ```re``` and ```nbformat``` to work. At this point, the user should install them manually (for example, using pip or conda).
 
