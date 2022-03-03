@@ -14,3 +14,4 @@ data/*/*/*_mrg*
 main_explore.py
 src/my_plot.py
 graphs/
+.gitignore.data
