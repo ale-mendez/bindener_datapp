@@ -3,10 +3,12 @@ tmp/
 data/*/proc_data.py
 data/*/src
 data/dirac-fock/declaux.ods
+data/dirac-fock/*.dat
 data/hartree-fock/HF
 data/*/compute_avg.py
 data/*/compute_mrg.py
 data/perturbative/hullac
+data/perturbative/config*
 data/*/*/*_avg*
 data/*/*/*_mrg*
 .vscode/
