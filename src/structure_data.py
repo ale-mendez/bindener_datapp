@@ -9,12 +9,12 @@ import src.experimental_enerdata as expapp
 import src.theoretical_enerdata as theoapp
 
 
-datafolder = './data/'
+
 
 
 class bindingEnergies:
 
-    def __init__(self, atom_symbol=None, units=None):
+    def __init__(self, atom_symbol=None, units=None, datafolder='./data/'):
         self.atom_symbol = atom_symbol
         self.atom = misc.periodic_table(self.atom_symbol)
         self.units = units
@@ -191,10 +191,14 @@ class bindingEnergies:
         nw_ticksvals, tickstext = self.log_minor_and_major_ticks(self.bindener)
         fig.update_yaxes(
             type = 'log',
+            # # yaxis with minor ticks (workaround)
             tickvals = nw_ticksvals,
             ticktext = tickstext,
             automargin = False,
             ticks = "inside",
+            # # yaxis without minor yticks
+            # dtick=1,
+            # tickformat = "e",
             showgrid=True)
 
         fig.update_traces(
